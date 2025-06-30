@@ -146,19 +146,19 @@ Available themes: `default`, `dark`, `radical`, `merko`, `gruvbox`, `tokyonight`
 
 ### Default Theme
 
-![LeetCode Stats](https://github-readme-stats-sunowind.vercel.app/api/leetcode?username=xiaojian-1)
+![LeetCode Stats](https://github-readme-stats-sunowind.vercel.app/api/leetcode?username=sunowind)
 
 ### Dark Theme
 
-![LeetCode Stats](https://github-readme-stats-sunowind.vercel.app/api/leetcode?username=xiaojian-1&theme=dark)
+![LeetCode Stats](https://github-readme-stats-sunowind.vercel.app/api/leetcode?username=sunowind&theme=dark)
 
 ### Custom Colors
 
-![LeetCode Stats](https://github-readme-stats-sunowind.vercel.app/api/leetcode?username=xiaojian-1&title_color=ff6b6b&text_color=333333&icon_color=2196f3&ring_color=ff9800)
+![LeetCode Stats](https://github-readme-stats-sunowind.vercel.app/api/leetcode?username=sunowind&title_color=ff6b6b&text_color=333333&icon_color=2196f3&ring_color=ff9800)
 
 ### Minimal Style
 
-![LeetCode Stats](https://github-readme-stats-sunowind.vercel.app/api/leetcode?username=xiaojian-1&hide_border=true&hide_title=true)
+![LeetCode Stats](https://github-readme-stats-sunowind.vercel.app/api/leetcode?username=sunowind&hide_border=true&hide_title=true)
 
 ---
 
