@@ -111,6 +111,10 @@ Please visit [this link](https://give.do/fundraisers/stand-beside-the-victims-of
     - [Demo](#demo-2)
 - [WakaTime Stats Card](#wakatime-stats-card)
     - [Demo](#demo-3)
+- [LeetCode Stats Card](#leetcode-stats-card)
+    - [Usage](#usage-3)
+    - [Customization](#customization-1)
+    - [Demo](#demo-4)
 - [All Demos](#all-demos)
   - [Quick Tip (Align The Cards)](#quick-tip-align-the-cards)
 - [Deploy on your own](#deploy-on-your-own)
@@ -639,6 +643,101 @@ Change the `?username=` value to your [WakaTime](https://wakatime.com) username.
 
 ***
 
+# LeetCode Stats Card
+
+> [!NOTE]\
+> Please be aware that we currently only support LeetCode CN region. You need to have a valid LeetCode CN account with public profile data.
+
+> [!NOTE]\
+> For local development, you need to install the Express dependency first: `npm install express`, then run `npm start` to start the local server. The LeetCode card will be available at `http://localhost:9000/leetcode`.
+
+Change the `?username=` value to your [LeetCode CN](https://leetcode.cn) username.
+
+### Usage
+
+#### Using the public instance (Vercel):
+
+```md
+[![LeetCode Stats](https://github-readme-stats.vercel.app/api/leetcode?username=YOUR_LEETCODE_USERNAME)](https://github.com/anuraghazra/github-readme-stats)
+```
+
+#### Using local development server:
+
+```md
+[![LeetCode Stats](http://localhost:9000/leetcode?username=YOUR_LEETCODE_USERNAME)](https://github.com/anuraghazra/github-readme-stats)
+```
+
+> [!TIP]\
+> Replace `YOUR_LEETCODE_USERNAME` with your actual LeetCode CN username.
+
+### Customization
+
+You can customize the appearance of your LeetCode stats card with URL parameters:
+
+#### Available options:
+
+| Parameter | Description | Type | Default |
+|-----------|-------------|------|---------|
+| `username` | LeetCode username | string | **Required** |
+| `theme` | Theme name | string | `default` |
+| `title_color` | Title color | hex code | `2f80ed` |
+| `text_color` | Body text color | hex code | `434d58` |
+| `icon_color` | Icon color | hex code | `4c71f2` |
+| `ring_color` | Progress ring color | hex code | `ff9800` |
+| `bg_color` | Background color | hex code | `fffefe` |
+| `border_color` | Border color | hex code | `e4e2e2` |
+| `hide_border` | Hide the card border | boolean | `false` |
+| `hide_title` | Hide the card title | boolean | `false` |
+| `custom_title` | Custom card title | string | `LeetCode Stats` |
+| `locale` | Language locale | string | `en` |
+| `card_width` | Card width | number | `400` |
+| `border_radius` | Border radius | number | `4.5` |
+| `disable_animations` | Disable animations | boolean | `false` |
+
+#### Theme examples:
+
+You can use any of the [built-in themes](themes/README.md):
+
+```md
+![LeetCode Stats](https://github-readme-stats.vercel.app/api/leetcode?username=YOUR_USERNAME&theme=dark)
+```
+
+```md
+![LeetCode Stats](https://github-readme-stats.vercel.app/api/leetcode?username=YOUR_USERNAME&theme=radical)
+```
+
+#### Custom colors:
+
+```md
+![LeetCode Stats](https://github-readme-stats.vercel.app/api/leetcode?username=YOUR_USERNAME&title_color=ff6b6b&text_color=333333&icon_color=2196f3&ring_color=ff9800&bg_color=ffffff)
+```
+
+#### Hide elements:
+
+```md
+![LeetCode Stats](https://github-readme-stats.vercel.app/api/leetcode?username=YOUR_USERNAME&hide_border=true&hide_title=true)
+```
+
+### Demo
+
+- **Default theme**
+
+![LeetCode Stats](https://github-readme-stats.vercel.app/api/leetcode?username=testuser)
+
+- **Dark theme**
+
+![LeetCode Stats](https://github-readme-stats.vercel.app/api/leetcode?username=testuser&theme=dark)
+
+- **Custom colors**
+
+![LeetCode Stats](https://github-readme-stats.vercel.app/api/leetcode?username=testuser&title_color=ff6b6b&text_color=333333&icon_color=2196f3&ring_color=ff9800)
+
+- **Hide border and title**
+
+![LeetCode Stats](https://github-readme-stats.vercel.app/api/leetcode?username=testuser&hide_border=true&hide_title=true)
+
+***
+
 # All Demos
 
 *   Default
@@ -710,6 +809,10 @@ Choose from any of the [default themes](#themes)
 *   WakaTime card
 
 ![Harlok's WakaTime stats](https://github-readme-stats.vercel.app/api/wakatime?username=ffflabs)
+
+*   LeetCode card
+
+![LeetCode Stats](https://github-readme-stats.vercel.app/api/leetcode?username=testuser)
 
 ***
 
