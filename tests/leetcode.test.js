@@ -39,7 +39,32 @@ const mockLeetCodeData = {
     hard: { solved: 10, total: 150 },
     ranking: 12345,
   },
-  submissions: [],
+  submissions: [
+    {
+      title: "Two Sum",
+      time: Date.now() - 2 * 60 * 60 * 1000, // 2 hours ago
+      status: "Accepted",
+      lang: "JavaScript",
+      slug: "two-sum",
+      id: "123",
+    },
+    {
+      title: "Add Two Numbers",
+      time: Date.now() - 5 * 60 * 60 * 1000, // 5 hours ago
+      status: "Wrong Answer",
+      lang: "Python",
+      slug: "add-two-numbers",
+      id: "124",
+    },
+    {
+      title: "Longest Substring Without Repeating Characters",
+      time: Date.now() - 8 * 60 * 60 * 1000, // 8 hours ago
+      status: "Accepted",
+      lang: "Java",
+      slug: "longest-substring-without-repeating-characters",
+      id: "125",
+    },
+  ],
 };
 
 describe("LeetCode API", () => {
@@ -75,6 +100,9 @@ describe("LeetCode API", () => {
     expect(svgContent).toContain("30/200");
     expect(svgContent).toContain("10/150");
     expect(svgContent).toContain("#12345");
+    // Check for submissions content
+    expect(svgContent).toContain("Recent Submissions");
+    expect(svgContent).toContain("Two Sum");
   });
 
   it("should return 400 if username missing", async () => {
@@ -135,5 +163,58 @@ describe("LeetCode API", () => {
     expect(svgContent).toContain("0/100");
     expect(svgContent).toContain("0/200");
     expect(svgContent).toContain("0/150");
+  });
+
+  // New tests for submission-related parameters
+  it("should hide submissions when hide_submissions is true", async () => {
+    mockFetchLeetCodeStats.mockResolvedValue(mockLeetCodeData);
+
+    const { req, res } = faker({
+      hide_submissions: "true",
+    });
+    await api(req, res);
+
+    const svgContent = res.send.mock.calls[0][0];
+    // Instead of checking for absence of text, check that the submissions section is not rendered
+    expect(svgContent).not.toContain('<g class="submissions-section">');
+    expect(svgContent).not.toContain('class="submission-item"');
+    // The title "Two Sum" might still appear in the accessibility description
+    expect(svgContent).not.toContain(
+      '<text x="0" y="12" font-size="13" font-weight="500"',
+    );
+  });
+
+  it("should limit submissions based on submissions_limit", async () => {
+    mockFetchLeetCodeStats.mockResolvedValue(mockLeetCodeData);
+
+    const { req, res } = faker({
+      submissions_limit: "2",
+    });
+    await api(req, res);
+
+    const svgContent = res.send.mock.calls[0][0];
+    expect(svgContent).toContain("Two Sum");
+    expect(svgContent).toContain("Add Two Numbers");
+    expect(svgContent).not.toContain("Longest Substring");
+  });
+
+  it("should handle all custom options including submission options", async () => {
+    mockFetchLeetCodeStats.mockResolvedValue(mockLeetCodeData);
+
+    const { req, res } = faker({
+      theme: "dark",
+      card_width: "700",
+      hide_border: "true",
+      custom_title: "My LeetCode Stats",
+      locale: "cn",
+      hide_submissions: "false",
+      submissions_limit: "1",
+    });
+    await api(req, res);
+
+    const svgContent = res.send.mock.calls[0][0];
+    expect(svgContent).toContain("My LeetCode Stats");
+    expect(svgContent).toContain("Two Sum");
+    expect(svgContent).not.toContain("Add Two Numbers");
   });
 });

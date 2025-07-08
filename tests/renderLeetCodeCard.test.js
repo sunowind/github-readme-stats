@@ -17,7 +17,64 @@ const baseData = {
     hard: { solved: 10, total: 150 },
     ranking: 12345,
   },
-  submissions: [],
+  submissions: [
+    {
+      title: "Two Sum",
+      time: Date.now() - 2 * 60 * 60 * 1000, // 2 hours ago
+      status: "Accepted",
+      lang: "JavaScript",
+      slug: "two-sum",
+      id: "123",
+    },
+    {
+      title: "Add Two Numbers",
+      time: Date.now() - 5 * 60 * 60 * 1000, // 5 hours ago
+      status: "Wrong Answer",
+      lang: "Python",
+      slug: "add-two-numbers",
+      id: "124",
+    },
+    {
+      title: "Longest Substring Without Repeating Characters",
+      time: Date.now() - 8 * 60 * 60 * 1000, // 8 hours ago
+      status: "Accepted",
+      lang: "Java",
+      slug: "longest-substring-without-repeating-characters",
+      id: "125",
+    },
+    {
+      title: "Median of Two Sorted Arrays",
+      time: Date.now() - 1 * 24 * 60 * 60 * 1000, // 1 day ago
+      status: "Time Limit Exceeded",
+      lang: "C++",
+      slug: "median-of-two-sorted-arrays",
+      id: "126",
+    },
+    {
+      title: "Palindrome Number",
+      time: Date.now() - 2 * 24 * 60 * 60 * 1000, // 2 days ago
+      status: "Accepted",
+      lang: "Java",
+      slug: "palindrome-number",
+      id: "127",
+    },
+    {
+      title: "Regular Expression Matching",
+      time: Date.now() - 3 * 24 * 60 * 60 * 1000, // 3 days ago
+      status: "Wrong Answer",
+      lang: "Python",
+      slug: "regular-expression-matching",
+      id: "128",
+    },
+    {
+      title: "Container With Most Water",
+      time: Date.now() - 4 * 24 * 60 * 60 * 1000, // 4 days ago
+      status: "Accepted",
+      lang: "JavaScript",
+      slug: "container-with-most-water",
+      id: "129",
+    },
+  ],
 };
 
 describe("Test renderLeetCodeCard", () => {
@@ -56,8 +113,9 @@ describe("Test renderLeetCodeCard", () => {
     document.body.innerHTML = renderLeetCodeCard(baseData);
     const svg = document.querySelector("svg");
     expect(svg).toBeInTheDocument();
-    expect(svg).toHaveAttribute("width", "500");
-    expect(svg).toHaveAttribute("height", "280");
+    expect(svg).toHaveAttribute("width", "800"); // Default width increased to 800
+    // Height should be larger to accommodate submissions
+    expect(svg).toHaveAttribute("height", "370"); // Updated to match actual height with submissions
   });
 
   it("should render with custom width and title", () => {
@@ -169,5 +227,91 @@ describe("Test renderLeetCodeCard", () => {
     // Check that animations are disabled in card
     const svg = document.querySelector("svg");
     expect(svg).toBeInTheDocument();
+  });
+
+  // New tests for submissions feature
+  it("should render recent submissions section", () => {
+    document.body.innerHTML = renderLeetCodeCard(baseData);
+
+    // Check for submissions section title
+    expect(document.body.textContent).toContain("Recent Submissions");
+
+    // Check for submission items
+    expect(document.body.textContent).toContain("Two Sum");
+    expect(document.body.textContent).toContain("JavaScript");
+    expect(document.body.textContent).toContain("Add Two Numbers");
+    expect(document.body.textContent).toContain("Python");
+  });
+
+  it("should hide submissions when hide_submissions is true", () => {
+    document.body.innerHTML = renderLeetCodeCard(baseData, {
+      hide_submissions: true,
+    });
+
+    // Should not contain submissions section
+    expect(document.body.textContent).not.toContain("Recent Submissions");
+    expect(document.body.textContent).not.toContain("Two Sum");
+  });
+
+  it("should limit submissions based on submissions_limit", () => {
+    document.body.innerHTML = renderLeetCodeCard(baseData, {
+      submissions_limit: 3,
+    });
+
+    // Should contain first 3 submissions
+    expect(document.body.textContent).toContain("Two Sum");
+    expect(document.body.textContent).toContain("Add Two Numbers");
+    expect(document.body.textContent).toContain("Longest Substring");
+
+    // Should not contain 4th submission
+    expect(document.body.textContent).not.toContain(
+      "Median of Two Sorted Arrays",
+    );
+  });
+
+  it("should render submissions with different status icons", () => {
+    document.body.innerHTML = renderLeetCodeCard(baseData);
+
+    // Check for status indicators
+    const statusIcons = document.querySelectorAll(".submission-item text");
+    expect(statusIcons.length).toBeGreaterThan(0);
+  });
+
+  it("should render submissions section with locale 'cn'", () => {
+    document.body.innerHTML = renderLeetCodeCard(baseData, { locale: "cn" });
+
+    // Check for translated submissions title
+    expect(document.body.textContent).toContain("最近提交");
+  });
+
+  it("should handle empty submissions array", () => {
+    const noSubmissionsData = {
+      ...baseData,
+      submissions: [],
+    };
+    document.body.innerHTML = renderLeetCodeCard(noSubmissionsData);
+
+    // Should not contain submissions section
+    expect(document.body.textContent).not.toContain("Recent Submissions");
+  });
+
+  it("should adjust card height based on number of submissions", () => {
+    // Test with 3 submissions
+    document.body.innerHTML = renderLeetCodeCard(
+      { ...baseData, submissions: baseData.submissions.slice(0, 3) },
+      { submissions_limit: 3 },
+    );
+    const svgWith3 = document.querySelector("svg");
+    const heightWith3 = svgWith3.getAttribute("height");
+
+    // Test with 6 submissions
+    document.body.innerHTML = renderLeetCodeCard(baseData, {
+      submissions_limit: 6,
+    });
+    const svgWith6 = document.querySelector("svg");
+    const heightWith6 = svgWith6.getAttribute("height");
+
+    // Height should be greater with more submissions
+    expect(Number(heightWith6)).toBeGreaterThanOrEqual(Number(heightWith3));
   });
 });

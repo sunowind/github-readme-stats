@@ -21,6 +21,8 @@ export default async (req, res) => {
     card_width,
     border_radius,
     disable_animations,
+    hide_submissions,
+    submissions_limit,
   } = req.query;
 
   if (!username) {
@@ -48,6 +50,10 @@ export default async (req, res) => {
         card_width,
         border_radius,
         disable_animations: parseBoolean(disable_animations),
+        hide_submissions: parseBoolean(hide_submissions),
+        submissions_limit: submissions_limit
+          ? parseInt(submissions_limit, 10)
+          : 6,
       }),
     );
   } catch (err) {
