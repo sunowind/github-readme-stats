@@ -113,9 +113,9 @@ describe("Test renderLeetCodeCard", () => {
     document.body.innerHTML = renderLeetCodeCard(baseData);
     const svg = document.querySelector("svg");
     expect(svg).toBeInTheDocument();
-    expect(svg).toHaveAttribute("width", "800"); // Default width increased to 800
+    expect(svg).toHaveAttribute("width", "850"); // Default width increased to 800
     // Height should be larger to accommodate submissions
-    expect(svg).toHaveAttribute("height", "370"); // Updated to match actual height with submissions
+    expect(svg).toHaveAttribute("height", "420"); // Updated to match actual height with submissions
   });
 
   it("should render with custom width and title", () => {

@@ -54,10 +54,10 @@ const createDifficultyBar = ({ difficulty, solved, total, y, textColor }) => {
 
   return `
     <g transform="translate(0, ${y})">
-      <text x="0" y="15" font-size="16" font-weight="600" fill="${textColor}">${capitalizedDifficulty}</text>
-      <rect x="0" y="20" width="${barWidth}" height="6" rx="3" fill="rgba(125,125,125,0.2)"/>
-      <rect x="0" y="20" width="${progressWidth}" height="6" rx="3" fill="${color}"/>
-      <text x="${barWidth + 15}" y="15" font-size="16" font-weight="600" fill="${textColor}">${solved}/${total}</text>
+      <text x="0" y="18" font-size="18" font-weight="600" fill="${textColor}">${capitalizedDifficulty}</text>
+      <rect x="0" y="24" width="${barWidth}" height="8" rx="4" fill="rgba(125,125,125,0.2)"/>
+      <rect x="0" y="24" width="${progressWidth}" height="8" rx="4" fill="${color}"/>
+      <text x="${barWidth + 15}" y="18" font-size="18" font-weight="600" fill="${textColor}">${solved}/${total}</text>
     </g>
   `;
 };
@@ -82,7 +82,7 @@ const createACCircle = ({
   const strokeDashoffset = calculateCircleProgress(progress);
 
   return `
-    <g transform="translate(90, 140)">
+    <g transform="translate(90, 150)">
       <!-- Background circle -->
       <circle 
         cx="0" cy="0" r="45" 
@@ -104,9 +104,9 @@ const createACCircle = ({
       />
       <!-- AC count text -->
       <text 
-        x="0" y="8" 
+        x="0" y="10" 
         text-anchor="middle" 
-        font-size="28" 
+        font-size="30" 
         font-weight="bold" 
         fill="${textColor}"
       >${kFormatter(totalSolved)}</text>
@@ -183,14 +183,14 @@ const formatTimeAgo = (timestamp) => {
  */
 const createSubmissionItem = ({ submission, index, textColor }) => {
   const { title, status, lang, time } = submission;
-  const y = index * 35;
+  const y = index * 40;
   const statusInfo = getStatusIcon(status);
   const timeAgo = formatTimeAgo(time);
   const difficulty = inferDifficulty(title);
   const difficultyColor = DIFFICULTY_COLORS[difficulty];
 
   // Truncate title if too long
-  const maxTitleLength = 22;
+  const maxTitleLength = 20;
   const displayTitle =
     title.length > maxTitleLength
       ? title.substring(0, maxTitleLength) + "..."
@@ -199,18 +199,18 @@ const createSubmissionItem = ({ submission, index, textColor }) => {
   return `
     <g transform="translate(0, ${y})" class="submission-item">
       <!-- Problem title -->
-      <text x="0" y="12" font-size="13" font-weight="500" fill="${textColor}">${displayTitle}</text>
+      <text x="0" y="15" font-size="15" font-weight="500" fill="${textColor}">${displayTitle}</text>
       
       <!-- Language and time -->
-      <text x="0" y="25" font-size="10" fill="rgba(125,125,125,0.8)">${lang} • ${timeAgo}</text>
+      <text x="0" y="30" font-size="12" fill="rgba(125,125,125,0.8)">${lang} • ${timeAgo}</text>
       
       <!-- Difficulty badge -->
-      <rect x="180" y="2" width="45" height="16" rx="8" fill="${difficultyColor}" opacity="0.2"/>
-      <text x="202" y="12" font-size="10" font-weight="600" text-anchor="middle" fill="${difficultyColor}">${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}</text>
+      <rect x="180" y="2" width="50" height="18" rx="9" fill="${difficultyColor}" opacity="0.2"/>
+      <text x="205" y="15" font-size="12" font-weight="600" text-anchor="middle" fill="${difficultyColor}">${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}</text>
       
       <!-- Status icon -->
-      <circle cx="240" cy="10" r="8" fill="${statusInfo.color}" opacity="0.2"/>
-      <text x="240" y="14" font-size="10" font-weight="bold" text-anchor="middle" fill="${statusInfo.color}">${statusInfo.icon}</text>
+      <circle cx="245" cy="12" r="9" fill="${statusInfo.color}" opacity="0.2"/>
+      <text x="245" y="17" font-size="12" font-weight="bold" text-anchor="middle" fill="${statusInfo.color}">${statusInfo.icon}</text>
     </g>
   `;
 };
@@ -236,10 +236,10 @@ const createSubmissionsSection = ({ submissions, limit, textColor, i18n }) => {
   return `
     <g class="submissions-section">
       <!-- Section title -->
-      <text x="0" y="15" font-size="16" font-weight="600" fill="${textColor}">${i18n.t("submissions")}</text>
+      <text x="0" y="18" font-size="18" font-weight="600" fill="${textColor}">${i18n.t("submissions")}</text>
       
       <!-- Submissions list -->
-      <g transform="translate(0, 25)">
+      <g transform="translate(0, 30)">
         ${submissionItems}
       </g>
     </g>
@@ -254,11 +254,11 @@ const createSubmissionsSection = ({ submissions, limit, textColor, i18n }) => {
 const getStyles = (colors) => {
   return `
     .card-title {
-      font: 600 18px 'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif;
+      font: 600 20px 'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif;
       fill: ${colors.titleColor};
     }
     .ranking-text {
-      font: 600 16px 'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif;
+      font: 600 18px 'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif;
       fill: ${colors.textColor};
     }
     .ac-progress-circle {
@@ -349,7 +349,7 @@ export default function renderLeetCodeCard(data, options = {}) {
     hide_title = false,
     custom_title,
     locale = "en",
-    card_width = 800, // Increased default width to accommodate submissions
+    card_width = 850, // Increased width for larger fonts
     border_radius,
     disable_animations = false,
     // New submission options
@@ -396,10 +396,10 @@ export default function renderLeetCodeCard(data, options = {}) {
   const hasSubmissions = !hide_submissions && submissions.length > 0;
   const cardHeight = hasSubmissions
     ? Math.max(
-        280,
-        100 + Math.min(submissions_limit, submissions.length) * 35 + 60,
+        320,
+        120 + Math.min(submissions_limit, submissions.length) * 40 + 60,
       )
-    : 280;
+    : 320;
 
   // Create card instance
   const card = new Card({
@@ -427,21 +427,21 @@ export default function renderLeetCodeCard(data, options = {}) {
       difficulty: i18n.t("easy"),
       solved: easy.solved,
       total: easy.total,
-      y: 50,
+      y: 60,
       textColor: colors.textColor,
     }),
     createDifficultyBar({
       difficulty: i18n.t("medium"),
       solved: medium.solved,
       total: medium.total,
-      y: 90,
+      y: 110,
       textColor: colors.textColor,
     }),
     createDifficultyBar({
       difficulty: i18n.t("hard"),
       solved: hard.solved,
       total: hard.total,
-      y: 130,
+      y: 160,
       textColor: colors.textColor,
     }),
   ];
@@ -470,18 +470,18 @@ export default function renderLeetCodeCard(data, options = {}) {
     </style>
     
     <!-- Ranking -->
-    ${ranking && ranking > 0 ? `<text x="${Number(card_width) - 20}" y="30" text-anchor="end" class="ranking-text">${rankingDisplay}</text>` : ""}
+    ${ranking && ranking > 0 ? `<text x="${Number(card_width) - 20}" y="35" text-anchor="end" class="ranking-text">${rankingDisplay}</text>` : ""}
     
     <!-- Left side: AC Circle -->
     ${acCircle}
     
     <!-- Center: Difficulty Stats -->
-    <g transform="translate(220, 40)" class="difficulty-stats">
+    <g transform="translate(240, 50)" class="difficulty-stats">
       ${difficultyBars.map((bar) => `<g class="difficulty-bar">${bar}</g>`).join("")}
     </g>
     
     <!-- Right side: Recent Submissions -->
-    ${submissionsSection ? `<g transform="translate(${Number(card_width) - 280}, 40)" class="submissions-section">${submissionsSection}</g>` : ""}
+    ${submissionsSection ? `<g transform="translate(${Number(card_width) - 300}, 50)" class="submissions-section">${submissionsSection}</g>` : ""}
   `;
 
   // Set accessibility label
